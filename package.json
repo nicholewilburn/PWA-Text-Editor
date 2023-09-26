@@ -1,25 +1,24 @@
 {
   "name": "JATE",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Your project description",
   "scripts": {
-    "start:dev": "",
-    "start": "",
-    "server": "",
-    "build": "",
-    "install": "",
-    "client": ""
+    "start": "node server/server.js", 
+    "start:dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build", 
+    "build:server": "cd server && npm run build", 
+    "install": "npm run install:client && npm run install:server", 
+    "install:client": "cd client && npm install", 
+    "install:server": "cd server && npm install"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "if-env": "^1.0.4"
+   
   },
   "devDependencies": {
-    "concurrently": "^5.2.0",
+    "concurrently": "^5.2.0", 
     "nodemon": "^2.0.4"
   }
 }
