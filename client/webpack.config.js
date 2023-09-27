@@ -9,62 +9,54 @@ const workboxPlugin = new InjectManifest({
   swDest: 'service-worker.js',
 });
 
-module.exports = () => {
-  return {
-    mode: 'development',
-    entry: {
-      main: './src/js/index.js',
-      install: './src/js/install.js'
-    },
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'), // Make sure it points to the correct path
-    },
-    plugins: [
-      // Generate HTML files for your entry points
-      new HtmlWebpackPlugin({
-        template: './index.html', // Update the path to your HTML template
-        filename: 'index.html', // Output filename
-      }),
-      workboxPlugin,
-    
-
-      // Generate a manifest file
-      new WebpackPwaManifest({
-        name: 'Your Text Editor',
-        short_name: 'Text Editor',
-        description: 'A text editor application.',
-        background_color: '#ffffff',
-        theme_color: '#007bff',
-        start_url: '/',
-        icons: [
-          {
-            src: path.resolve(__dirname, 'src/images/logo.png'), // Verify this path
-            sizes: [192, 256, 384, 512],
-            destination: path.join('icons', 'ios'),
-          },
-        ],
-      }),
-    ],
-
-    module: {
-      rules: [
-        // Add CSS loaders and Babel configuration here
+module.exports = {
+  mode: 'production',
+  entry: {
+    main: './src/js/index.js',
+    install: './src/js/install.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      filename: 'index.html',
+    }),
+    workboxPlugin,
+    new WebpackPwaManifest({
+      name: 'Your Text Editor',
+      short_name: 'Text Editor',
+      description: 'A text editor application.',
+      background_color: '#ffffff',
+      theme_color: '#007bff',
+      start_url: '/',
+      icons: [
         {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-            },
-          },
+          src: path.resolve(__dirname, 'src/images/logo.png'),
+          sizes: [192, 256, 384, 512],
+          destination: path.join('icons', 'ios'),
         },
       ],
-    },
-  };
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
 };
