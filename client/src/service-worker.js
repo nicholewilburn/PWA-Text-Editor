@@ -28,9 +28,6 @@ registerRoute(
   assetCacheStrategy
 );
 
-// You can add more routes for other asset types if needed
-// registerRoute(...);
-
 // Implement a fallback strategy for offline requests (e.g., for assets that are not in the cache)
 // This ensures that, even if an asset is not cached, the service worker will still try to fetch it
 const offlineFallbackStrategy = new StaleWhileRevalidate({
