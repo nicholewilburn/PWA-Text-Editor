@@ -3,6 +3,12 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
+// Define the InjectManifest plugin instance
+const workboxPlugin = new InjectManifest({
+  swSrc: './src/service-worker.js',
+  swDest: 'service-worker.js',
+});
+
 module.exports = () => {
   return {
     mode: 'development',
@@ -12,14 +18,16 @@ module.exports = () => {
     },
     output: {
       filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist'), // Make sure it points to the correct path
     },
     plugins: [
       // Generate HTML files for your entry points
       new HtmlWebpackPlugin({
-        template: './client/index.html', // Update the path to your HTML template
+        template: './index.html', // Update the path to your HTML template
         filename: 'index.html', // Output filename
       }),
+      workboxPlugin,
+    
 
       // Generate a manifest file
       new WebpackPwaManifest({
@@ -31,17 +39,11 @@ module.exports = () => {
         start_url: '/',
         icons: [
           {
-            src: path.resolve('src/images/icon.png'),
+            src: path.resolve(__dirname, 'src/images/logo.png'), // Verify this path
             sizes: [192, 256, 384, 512],
             destination: path.join('icons', 'ios'),
           },
         ],
-      }),
-
-      // Configure service worker using Workbox
-      new InjectManifest({
-        swSrc: './src/service-worker.js', // Specify the path to your service worker file
-        swDest: 'service-worker.js', // Output service worker filename
       }),
     ],
 
