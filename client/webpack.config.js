@@ -1,16 +1,17 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
+const { WorkboxPlugin } = require('workbox-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-// Define the InjectManifest plugin instance
-const workboxPlugin = new InjectManifest({
-  swSrc: './src/service-worker.js',
-  swDest: 'service-worker.js',
-});
+// Define the WorkboxPlugin instance
+// const workboxPlugin = new WorkboxPlugin.InjectManifest({
+//   swSrc: './src/service-worker.js',
+//   swDest: 'service-worker.js',
+// });
 
 module.exports = {
-  mode: 'production',
+  mode: 'development', // or 'production' if you prefer
   entry: {
     main: './src/js/index.js',
     install: './src/js/install.js',
@@ -24,7 +25,6 @@ module.exports = {
       template: './index.html',
       filename: 'index.html',
     }),
-    workboxPlugin,
     new WebpackPwaManifest({
       name: 'Your Text Editor',
       short_name: 'Text Editor',
@@ -39,6 +39,10 @@ module.exports = {
           destination: path.join('icons', 'ios'),
         },
       ],
+    }),
+    new InjectManifest({
+      swSrc: './src/service-worker.js', // Path to your service worker file
+      swDest: 'service-worker.js',
     }),
   ],
   module: {
