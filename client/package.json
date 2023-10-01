@@ -1,9 +1,11 @@
 {
   "name": "JATE",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "webpack --mode production",
-    "start": "webpack --watchAll"
+    "start": "webpack-dev-server --mode development --config webpack.config.js",
+    "build": "webpack --mode production --config webpack.config.js",
+    "client": "cd client && npm start",
+    "server": "cd server && npm start",
+    "start:dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "2U",
   "license": "UNLICENSED",
@@ -13,19 +15,32 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
     "@babel/runtime": "^7.15.3",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.3.0",
     "css-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
     "http-server": "^0.11.1",
     "style-loader": "^3.2.1",
     "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.0.0",
     "webpack-pwa-manifest": "^4.3.0",
-    "workbox-webpack-plugin": "^6.2.4"
+    "workbox-webpack-plugin": "^6.6.0"
   },
   "dependencies": {
-    "code-mirror-themes": "^1.0.0",
-    "idb": "^6.1.2"
-  }
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "html-webpack-plugin": "^5.5.0",
+    "idb": "^7.1.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.3",
+    "webpack-pwa-manifest": "^5.9.5",
+    "workbox-precaching": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
+  },
+  "files": [
+    "src/service-worker.js"
+  ]
 }
