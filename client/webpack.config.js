@@ -1,14 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
-const { WorkboxPlugin } = require('workbox-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
-
-// Define the WorkboxPlugin instance
-// const workboxPlugin = new WorkboxPlugin.InjectManifest({
-//   swSrc: './src/service-worker.js',
-//   swDest: 'service-worker.js',
-// });
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = {
   mode: 'development', // or 'production' if you prefer
@@ -18,9 +11,14 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'client', 'dist'),
   },
   plugins: [
+    new GenerateSW({
+      swDest: 'service-worker.js', // Output filename
+      clientsClaim: true,
+      skipWaiting: true,
+    }),
     new HtmlWebpackPlugin({
       template: './index.html',
       filename: 'index.html',
@@ -35,14 +33,10 @@ module.exports = {
       icons: [
         {
           src: path.resolve(__dirname, 'src/images/logo.png'),
-          sizes: [192, 256, 384, 512],
-          destination: path.join('icons', 'ios'),
+          sizes: [96, 192, 256, 384, 512], // Include 96x96 size
+          destination: path.join('assets', 'icons'), // Use 'assets/icons' as the destination
         },
       ],
-    }),
-    new InjectManifest({
-      swSrc: './src/service-worker.js', // Path to your service worker file
-      swDest: 'service-worker.js',
     }),
   ],
   module: {
@@ -64,3 +58,8 @@ module.exports = {
     ],
   },
 };
+
+
+
+
+
