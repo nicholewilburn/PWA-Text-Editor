@@ -15,7 +15,7 @@ const initdb = async () =>
 // Initialize the database when the module is imported
 initdb();
 
-// Function to add content to the database
+// Function to put content into the database with a specific id (1)
 export const putDb = async (content) => {
   const db = await openDB('jate', 1);
 
@@ -23,17 +23,16 @@ export const putDb = async (content) => {
   const tx = db.transaction('jate', 'readwrite');
   const store = tx.objectStore('jate');
 
-  // Define the data to be inserted
-  const data = { content, timestamp: Date.now() };
+  // Define the data to be inserted/updated
+  const data = { id: 1, content, timestamp: Date.now() };
 
-  // Add the data to the object store
-  await store.add(data);
+  // Use put to update or insert the data
+  await store.put(data);
 
-  // Complete the transaction
-  await tx.done;
+  // No need to complete the transaction explicitly
 };
 
-// Function to get all content from the database
+// Function to get content from the database by id (1)
 export const getDb = async () => {
   const db = await openDB('jate', 1);
 
@@ -41,11 +40,10 @@ export const getDb = async () => {
   const tx = db.transaction('jate', 'readonly');
   const store = tx.objectStore('jate');
 
-  // Retrieve all records from the object store
-  const content = await store.getAll();
+  // Retrieve the record with id 1
+  const content = await store.get(1);
 
-  // Complete the transaction
-  await tx.done;
+  // No need to complete the transaction explicitly
 
   return content;
 };
